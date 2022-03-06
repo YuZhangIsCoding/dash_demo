@@ -1,0 +1,45 @@
+---
+fail_fast: true
+
+repos:
+  - repo: local
+    hooks:
+      - id: pipenv-setup-check
+        name: pipenv-setup-check
+        entry: pipenv run pipenv-setup sync
+        language: system
+        files: ^setup\.py|Pipfile|Pipefile\.lock$
+        pass_filenames: false
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args: [--filter-files]
+        files: \.py$
+
+  - repo: https://github.com/ambv/black
+    rev: 21.7b0
+    hooks:
+      - id: black
+        language_version: python3.8
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: check-json
+      - id: mixed-line-ending
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.26.3
+    hooks:
+      - id: yamllint
+        args: [-d=relaxed]
+
+  - repo: http://gitlab.com/pycqa/flake8
+    rev: 4.0.0
+    hooks:
+      - id: flake8
+        additional_dependencies: [flake8-bugbear]
